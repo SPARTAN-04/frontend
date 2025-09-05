@@ -36,12 +36,14 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         }
 
         //initiate the order
+        console.log("before post request");
         const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, 
                                 {courses},
                                 {
                                     Authorization: `Bearer ${token}`,
-                                })
-
+                                });
+        console.log("after post request);
+        
         if(!orderResponse.data.success) {
             console.log("DATA ERROR"),
             throw new Error(orderResponse.data.message);
