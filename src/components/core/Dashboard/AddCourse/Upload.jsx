@@ -36,7 +36,7 @@ export default function Upload({
       ? { "image/*": [".jpeg", ".jpg", ".png"] }
       : { "video/*": [".mp4"] },
     onDrop,
-    noClick: true, // disable dropzone's built-in click, we’ll handle it manually
+    noClick: true, // prevent default click, we’ll handle it manually
   })
 
   const previewFile = (file) => {
@@ -62,12 +62,11 @@ export default function Upload({
       <label className="text-sm text-richblack-5" htmlFor={name}>
         {label} {!viewData && <sup className="text-pink-200">*</sup>}
       </label>
+
       <div
         className={`${
           isDragActive ? "bg-richblack-600" : "bg-richblack-700"
         } flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2 border-dotted border-richblack-500`}
-        onClick={() => inputRef.current?.click()} // 👈 open file picker on click
-        {...getRootProps()}
       >
         {previewSource ? (
           <div className="flex w-full flex-col p-6">
@@ -83,8 +82,7 @@ export default function Upload({
             {!viewData && (
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation() // prevent reopening picker
+                onClick={() => {
                   setPreviewSource("")
                   setSelectedFile(null)
                   setValue(name, null)
@@ -96,19 +94,18 @@ export default function Upload({
             )}
           </div>
         ) : (
-          <div className="flex w-full flex-col items-center p-6">
-            <input
-              {...getInputProps()}
-              ref={inputRef}
-              style={{ display: "none" }} // keep hidden
-            />
+          <div
+            className="flex w-full flex-col items-center p-6"
+            {...getRootProps()}
+            onClick={() => inputRef.current?.click()} // 👈 manually trigger file input
+          >
+            <input {...getInputProps()} ref={inputRef} />
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
               <FiUploadCloud className="text-2xl text-yellow-50" />
             </div>
             <p className="mt-2 max-w-[200px] text-center text-sm text-richblack-200">
               Drag and drop an {!video ? "image" : "video"}, or click to{" "}
-              <span className="font-semibold text-yellow-50">Browse</span> a
-              file
+              <span className="font-semibold text-yellow-50">Browse</span> a file
             </p>
             <ul className="mt-10 flex list-disc justify-between space-x-12 text-center text-xs text-richblack-200">
               <li>Aspect ratio 16:9</li>
@@ -117,6 +114,7 @@ export default function Upload({
           </div>
         )}
       </div>
+
       {errors[name] && (
         <span className="ml-2 text-xs tracking-wide text-pink-200">
           {label} is required
