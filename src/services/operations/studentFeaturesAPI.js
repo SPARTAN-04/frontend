@@ -50,25 +50,24 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         }
         console.log("PRINTING orderResponse", orderResponse);
         //options
-        const options = {
-           key: process.env.REACT_APP_RAZORPAY_KEY,
-            currency: orderResponse.data.message.currency,
-            amount: `${orderResponse.data.message.amount}`,
-            order_id:orderResponse.data.message.id,
-            name:"StudyNotion",
-            description: "Thank You for Purchasing the Course",
-            image:rzpLogo,
-            prefill: {
-                name:`${userDetails.firstName}`,
-                email:userDetails.email
-            },
-            handler: function(response) {
-                //send successful wala mail
-                sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
-                //verifyPayment
-                verifyPayment({...response, courses}, token, navigate, dispatch);
-            }
-        }
+       const options = {
+    key: process.env.REACT_APP_RAZORPAY_KEY,
+    currency: orderResponse.data.data.currency,
+    amount: `${orderResponse.data.data.amount}`,
+    order_id: orderResponse.data.data.id,
+    name: "StudyNotion",
+    description: "Thank You for Purchasing the Course",
+    image: rzpLogo,
+    prefill: {
+        name: `${userDetails.firstName}`,
+        email: userDetails.email
+    },
+    handler: function(response) {
+        sendPaymentSuccessEmail(response, orderResponse.data.data.amount, token);
+        verifyPayment({ ...response, courses }, token, navigate, dispatch);
+    }
+}
+console.log("hello");
         //miss hogya tha 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
