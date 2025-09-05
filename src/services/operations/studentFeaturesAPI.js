@@ -42,7 +42,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                                 {
                                     Authorization: `Bearer ${token}`,
                                 });
-        console.log("after post request);
+        console.log("after post request");
         
         if(!orderResponse.data.success) {
             console.log("DATA ERROR"),
