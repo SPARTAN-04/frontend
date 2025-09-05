@@ -43,6 +43,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                                 })
 
         if(!orderResponse.data.success) {
+            console.log("DATA ERROR"),
             throw new Error(orderResponse.data.message);
         }
         console.log("PRINTING orderResponse", orderResponse);
