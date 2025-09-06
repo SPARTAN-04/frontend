@@ -5,12 +5,9 @@ import { Pie } from "react-chartjs-2"
 Chart.register(...registerables)
 
 export default function InstructorChart({ courses }) {
-  // Ensure courses is always an array
   const safeCourses = Array.isArray(courses) ? courses : []
-
   const [currChart, setCurrChart] = useState("students")
 
-  // Generates random colors for the chart
   const generateRandomColors = (numColors) => {
     const colors = []
     for (let i = 0; i < numColors; i++) {
@@ -22,7 +19,6 @@ export default function InstructorChart({ courses }) {
     return colors
   }
 
-  // Chart config for students enrolled
   const chartDataStudents = {
     labels: safeCourses.map((course) => course.courseName ?? "Untitled"),
     datasets: [
@@ -33,7 +29,6 @@ export default function InstructorChart({ courses }) {
     ],
   }
 
-  // Chart config for income generated
   const chartIncomeData = {
     labels: safeCourses.map((course) => course.courseName ?? "Untitled"),
     datasets: [
@@ -45,10 +40,18 @@ export default function InstructorChart({ courses }) {
   }
 
   const options = {
+    responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          color: "#D1D5DB",
+        }
+      }
+    }
   }
 
-  // Render a fallback message if no chart data
   const noData = safeCourses.length === 0 ||
     safeCourses.every((course) =>
       (currChart === "students"
@@ -57,7 +60,7 @@ export default function InstructorChart({ courses }) {
     )
 
   return (
-    <div className="flex flex-1 flex-col gap-y-4 rounded-md bg-richblack-800 p-6">
+    <div className="w-full h-full flex flex-col gap-y-4 rounded-md bg-richblack-800 p-6">
       <p className="text-lg font-bold text-richblack-5">Visualize</p>
       <div className="space-x-4 font-semibold">
         <button
@@ -81,15 +84,17 @@ export default function InstructorChart({ courses }) {
           Income
         </button>
       </div>
-      <div className="relative mx-auto aspect-square h-full w-full">
+      <div className="relative w-full h-[300px] md:h-[350px] lg:h-[400px] min-h-[250px] flex items-center justify-center">
         {noData ? (
-          <div className="flex items-center justify-center h-full font-bold text-xl text-richblack-50">
+          <div className="font-bold text-xl text-richblack-50 flex items-center justify-center h-full">
             Not Enough Data To Visualize
           </div>
         ) : (
           <Pie
             data={currChart === "students" ? chartDataStudents : chartIncomeData}
             options={options}
+            width={300}
+            height={300}
           />
         )}
       </div>
