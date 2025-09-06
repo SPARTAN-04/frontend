@@ -47,16 +47,17 @@ export default function InstructorChart({ courses }) {
         position: "top",
         labels: {
           color: "#D1D5DB",
-        }
-      }
-    }
+        },
+      },
+    },
   }
 
-  const noData = safeCourses.length === 0 ||
+  const noData =
+    safeCourses.length === 0 ||
     safeCourses.every((course) =>
-      (currChart === "students"
+      currChart === "students"
         ? !course.totalStudentsEnrolled
-        : !course.totalAmountGenerated)
+        : !course.totalAmountGenerated
     )
 
   return (
