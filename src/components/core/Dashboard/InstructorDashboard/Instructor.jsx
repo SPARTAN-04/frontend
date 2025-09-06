@@ -9,7 +9,7 @@ export default function Instructor() {
     const { token } = useSelector((state) => state.auth)
     const { user } = useSelector((state) => state.profile)
     const [loading, setLoading] = useState(false)
-    const [instructorData, setInstructorData] = useState(null)
+    const [instructorData, setInstructorData] = useState([])
     const [courses, setCourses] = useState([])
   
     useEffect(() => {
