@@ -52,16 +52,14 @@ function ReviewSlider() {
             disableOnInteraction: false,
           }}
           modules={[FreeMode, Pagination, Autoplay]}
-          className="w-full"
+          className="w-full !items-stretch"
         >
           {reviews.length === 0 ? (
-            <p className="text-center text-richblack-200">
-              No reviews yet
-            </p>
+            <p className="text-center text-richblack-200">No reviews yet</p>
           ) : (
             reviews.map((review, i) => (
-              <SwiperSlide key={i} className="h-full">
-                <div className="flex h-full min-h-[220px] flex-col gap-3 rounded-lg bg-richblack-800 p-4 text-[14px] text-richblack-25 shadow-md">
+              <SwiperSlide key={i} className="!h-auto flex">
+                <div className="flex flex-col justify-between w-full rounded-lg bg-richblack-800 p-4 text-[14px] text-richblack-25 shadow-md">
                   {/* User Info */}
                   <div className="flex items-center gap-4">
                     <img
@@ -84,7 +82,7 @@ function ReviewSlider() {
                   </div>
 
                   {/* Review Text */}
-                  <p className="font-medium text-richblack-25">
+                  <p className="my-3 font-medium text-richblack-25">
                     {review?.review?.split(" ").length > truncateWords
                       ? `${review?.review
                           ?.split(" ")
